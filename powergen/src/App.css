@@ -4,10 +4,10 @@
 
 .App {
   width: 100dvw;
-  height: 100dvh;
+  min-height: 100dvh;
   text-align: center;
-  background: rgb(255,255,245);
-background: linear-gradient(145deg, rgba(255,255,245,1) 0%, rgba(255,255,255,1) 43%, rgba(253,255,220,1) 100%);
+  background: hsl(60, 20%, 98%);
+  background: linear-gradient(145deg, hsl(60, 20%, 98%) 0%, hsl(0, 0%, 100%) 43%, hsl(63, 20%, 93%) 100%);
 }
 
 header {
@@ -16,9 +16,35 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 1.5vmin);
+  font-size: calc(9px + 1.2vmin);
   color: white;
   margin-bottom: 2rem;
+}
+
+footer {
+  background-color: hsla(220, 13%, 30%, 70%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 1.5vmin);
+  color: white;
+  margin-top: 2rem;
+}
+
+button {
+  border-radius: 0.5rem;
+  border: none;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.prev::before {
+  content: '◄ ';
+}
+
+.next::after {
+  content: ' ►';
 }
 
 header .wrap {
@@ -38,39 +64,58 @@ header .wrap {
   align-items: center;
   width: 70dvw;
   margin-inline: auto;
-  padding: 1rem 0.5rem;
-  background-color: #61dafb;
+  padding: 1rem 0.5rem 2rem 0.5rem;
+  background-color: hsl(0, 0%, 80%);
   border-radius: 6px;
 }
 
 .country-selector {
-  width: 100%;
+  width: 96%;
+  background-color: hsla(220, 13%, 50%, 70%);
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
   margin-bottom: 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+}
+
+label {
+  color: #fff;
 }
 
 form{ width: 100%; }
 
 .country-selector select {
-  width: 85%;
+  width: 100%;
+  font-size: 1.1rem;
+  min-height: 2.1rem;
+  border-radius: 0.4rem;
+  margin-top: 0.5rem;
+  padding-inline: 0.3rem;
 }
 
 .time-nav {
-  width: 85%;
+  width: 96%;
+  background-color: hsla(220, 13%, 50%, 70%);
   display: flex;
   justify-content: space-between;
   margin-bottom: 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
 }
 
-.time-nav button {
+.time-nav button{
   padding: 0.6rem;
 }
 
 .type-nav {
-  width: 85%;
+  width: 96%;
+  padding: 1rem;
+  background-color: hsla(220, 13%, 50%, 70%);
+  border-radius: 0.4rem;
+  margin-bottom: 1rem;
 }
 
 .gen-type {
@@ -83,7 +128,21 @@ form{ width: 100%; }
 .gen-type button {
   padding: 0.6rem;
 }
+.gen-type button:disabled {
+  background-color: #fff;
+  color: #000;
+}
 
+
+.graph {
+  display: flex;
+  justify-content: center;
+  padding: 0.3rem;
+  padding-bottom: 0.8rem;
+  background-color: #fff;
+  border-radius: 0.4rem;
+  text-align: center;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     height: 100px;
