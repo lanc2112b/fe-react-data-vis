@@ -1,83 +1,40 @@
 import GenGraphDisplay from "./GenGraphDisplay";
 import TypeNavigator from "./TypeNavigator";
+import Loader from "./Loader";
 import { useEffect, useState } from "react";
-
-const exampleData = {
-  generationmix: [
-    {
-      fuel: "biomass",
-      perc: 1,
-    },
-    {
-      fuel: "coal",
-      perc: 0,
-    },
-    {
-      fuel: "imports",
-      perc: 0.4,
-    },
-    {
-      fuel: "gas",
-      perc: 18.2,
-    },
-    {
-      fuel: "nuclear",
-      perc: 36.2,
-    },
-    {
-      fuel: "other",
-      perc: 0,
-    },
-    {
-      fuel: "hydro",
-      perc: 8.7,
-    },
-    {
-      fuel: "solar",
-      perc: 3.5,
-    },
-    {
-      fuel: "wind",
-      perc: 32,
-    },
-  ],
-};
 
 /** API
  * https://api.carbonintensity.org.uk/
  * https://api.carbonintensity.org.uk/regional/intensity/2018-05-15T12:00Z/2018-05-16T12:00Z/regionid/1
  */
 
+const GenerationSection = ({ countryVal, prevDay, timeVal }) => {
+  const [typeIndex, setTypeIndex] = useState(9);
 
+  const [genData, setGenData] = useState(null); // need to replace starter data
 
-const { generationmix } = exampleData;
-
-//console.log(generationmix, 'genMix');
-
-const GenerationSection = ({ countryVal, nextDay, prevDay, timeVal }) => {
-  //console.log(countryVal);
-
-  const [typeIndex, setTypeIndex] = useState(0);
-
-  const [genData, setGenData] = useState(generationmix);
+  const apiStr = `https://api.carbonintensity.org.uk/regional/intensity/${prevDay}/${timeVal}/regionid/${countryVal}`;
 
   useEffect(() => {
-    const apiStr = `https://api.carbonintensity.org.uk/regional/intensity/${prevDay}/${timeVal}/regionid/${countryVal}`;
 
     fetch(apiStr)
       .then((response) => response.json())
       .then((data) => {
         const useful = aggregateData(data.data.data); // 48 points of 30min data aggregated into the avg over 24 hours :)
-        setGenData([...useful]);
+        setGenData([...useful, { fuel: "all" }]); // spread array, then attach all option
       });
-  }, [countryVal, timeVal, prevDay]);
-  //console.log(genData, "extracted gen mix");
+  }, [genData, apiStr]); //countryVal, timeVal, prevDay,
+
+  if (!genData) {
+    return <Loader />;
+  }
+
   return (
     <section className="type-nav">
       <TypeNavigator
         typeIndex={typeIndex}
         setTypeIndex={setTypeIndex}
-        generationmix={generationmix}
+        generationmix={genData}
       />
       <div className="graph">
         <GenGraphDisplay generationmix={genData} typeIndex={typeIndex} />
@@ -85,6 +42,14 @@ const GenerationSection = ({ countryVal, nextDay, prevDay, timeVal }) => {
     </section>
   );
 };
+
+/* function sleepFor(sleepDuration) {
+  var now = new Date().getTime();
+  while (new Date().getTime() < now + sleepDuration) {
+    // Do nothing 
+  }
+} */
+
 
 function aggregateData(dataArr) {
 

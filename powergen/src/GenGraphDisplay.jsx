@@ -7,8 +7,10 @@ function prepData(data) {
   const labels = [];
   const percs = [];
   data.forEach((element) => {
-    labels.push(element.fuel);
-    percs.push(element.perc);
+    //if (element.fuel !== 'all') {
+      labels.push(element.fuel);
+      percs.push(element.perc);
+   // }
   });
 
   return [labels, percs];
@@ -39,15 +41,27 @@ function prepColors(data) {
 }
 
 const GenGraphDisplay = ({ generationmix, typeIndex }) => {
-  //console.log(generationmix, 'gen mix geneterator');
 
-  //console.log(generationmix);
-  const totalCombined = 100 - generationmix[typeIndex].perc;
+  //console.log(typeIndex);
+  let totalCombined = 0;
 
-  const currDataSet = [
-    generationmix[typeIndex],
-    { fuel: "All Others Total", perc: totalCombined },
-  ];
+  let currDataSet = [];
+
+  if (generationmix[typeIndex].fuel === "all") {
+      
+    currDataSet = [
+      ...generationmix,
+      { fuel: "All Others Total", perc: totalCombined },
+    ];
+
+  } else {
+
+    totalCombined = 100 - generationmix[typeIndex].perc;
+    currDataSet = [
+      generationmix[typeIndex],
+      { fuel: "All Others Total", perc: totalCombined },
+    ];
+  }
 
   const arr = prepData(currDataSet);
 
