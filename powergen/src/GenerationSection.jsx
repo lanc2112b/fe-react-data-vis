@@ -23,7 +23,7 @@ const GenerationSection = ({ countryVal, prevDay, timeVal }) => {
         const useful = aggregateData(data.data.data); // 48 points of 30min data aggregated into the avg over 24 hours :)
         setGenData([...useful, { fuel: "all" }]); // spread array, then attach all option
       });
-  }, [genData, apiStr]); //countryVal, timeVal, prevDay,
+  }, [apiStr]); //countryVal, timeVal, prevDay,
 
   if (!genData) {
     return <Loader />;
